@@ -7,7 +7,7 @@ class BackgroundImageService {
         this.httpclient = new HttpClient();
     }
 
-    getBackgroundImage() {
+    getBackgroundImage = () => {
         return this.httpclient.get(this.configurations.BING_API);
     };
 }
