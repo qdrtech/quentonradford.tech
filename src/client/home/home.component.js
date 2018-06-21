@@ -12,7 +12,7 @@ class Home extends Component {
         this.backgroundImageService = new BackgroundImageService();
         this.backgroundImageService.getBackgroundImage().then((response) => {
             if (response && response.status === 200) {
-                this.setImageOfTheDay(`${this.configurations.BING_URL}${(this.returnImageOfTheDay(response.data))}`);
+                this.setImageOfTheDay(`${this.configurations.BING_URL}${(this.returnImageOfTheDay(JSON.parse(response.data)))}`);
             }
         });
     }
@@ -25,8 +25,10 @@ class Home extends Component {
     };
 
     returnImageOfTheDay(data) {
-        if (data && data.images && data.images.length > 0)
+        if (data && data.images && data.images.length > 0) {
+            console.log(data);
             return this.extractImageOfTheDay(data.images[0]);
+        }
     };
 
     extractImageOfTheDay(image) {

@@ -2,7 +2,7 @@ class Configurations {
 
     constructor() {
         const bingURL = `https://www.bing.com`;
-        const bingAPI = `${bingURL}/HPImageArchive.aspx?format=js&idx=0&n=1`;
+        const bingAPI = `https://lau1up2qmc.execute-api.us-east-2.amazonaws.com/Dev/api/imageoftheday`;
         this.BING_URL = bingURL;
         this.BING_API = bingAPI;
     }
