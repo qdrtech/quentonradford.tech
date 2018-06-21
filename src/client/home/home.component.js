@@ -26,7 +26,6 @@ class Home extends Component {
 
     returnImageOfTheDay(data) {
         if (data && data.images && data.images.length > 0) {
-            console.log(data);
             return this.extractImageOfTheDay(data.images[0]);
         }
     };
