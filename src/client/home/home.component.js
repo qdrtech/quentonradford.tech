@@ -17,34 +17,36 @@ class Home extends Component {
         });
     }
 
-    setImageOfTheDay = (string => {
+    setImageOfTheDay(string) {
         this.img = {
             backgroundImage: `url(${string})`
-        
-        }
-    });
 
-    returnImageOfTheDay = (data => {
+        }
+    };
+
+    returnImageOfTheDay(data) {
         if (data && data.images && data.images.length > 0)
             return this.extractImageOfTheDay(data.images[0]);
-    });
+    };
 
-    extractImageOfTheDay = (image => {
+    extractImageOfTheDay(image) {
         return image.url;
-    });
+    };
 
-    componentDidMount = (() => {
+    componentDidMount() {
         this.timerID = setInterval(() => {
             let now = new Date().getTime();
             this.setState({ countdownTime: this.countdownDate - now });
         }, 1)
-    });
+    };
 
-    componentWillUnmount = (() => {
+    componentWillUnmount() {
         clearInterval(this.timerID);
-    });
+    };
 
-    render = (() => {
+
+
+    render() {
         return (
             <div className="App">
                 <div className="bgimg" style={this.img}>
@@ -56,7 +58,7 @@ class Home extends Component {
                 </div>
             </div>
         );
-    });
+    };
 }
 
 export default Home;

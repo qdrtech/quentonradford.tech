@@ -10,11 +10,12 @@ class HttpClient {
         this.service = service;
     }
 
-    handleSuccess = (response) => {
+    handleSuccess(response) {
         return response;
     };
 
-    handleError = (error) => {
+    handleError(error) {
+        return;
         switch (error.response.status) {
             case 401:
                 this.redirectTo(document, '/')
@@ -29,11 +30,11 @@ class HttpClient {
         return Promise.reject(error);
     };
 
-    redirectTo = (document, path) => {
+    redirectTo(document, path) {
         document.location = path;
     }
 
-    get = (url, callback) => {
+    get(url, callback) {
         return this.service.get(url);
     }
 }
