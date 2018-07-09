@@ -37,6 +37,10 @@ class HttpClient {
     get = (url, callback) => {
         return this.service.get(url);
     }
+
+    post = (url, data, callback) => {
+        return this.service.post(url,data);
+    }
 }
 
 export default HttpClient;

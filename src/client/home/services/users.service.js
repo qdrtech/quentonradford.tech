@@ -1,11 +1,17 @@
 import HttpClient from '../../services/httpclient.service';
 
+import CookieService from './cookie.service';
+
 export default class UserService {
 
     privates = new WeakMap();
 
     constructor(){
         var privateProperties = {
+            cookieService: new CookieService(),
+            getUserID: () => {
+                return this.privates.get(this).cookieService.getFingerPrint()
+            },
             http: new HttpClient(),
             baseUrl: "https://w2650z904k.execute-api.us-east-2.amazonaws.com/Dev/api/users"
         }
@@ -20,8 +26,20 @@ export default class UserService {
         return this.privates.get(this).baseUrl;
     }
 
-    getUserByUserID = (userID) => {
-        return this.getHttpClient().get(`${this.getBaseUrl()}?userID=${userID}`);
+    getUserByUserID = () => {
+        return this.getHttpClient().get(`${this.getBaseUrl()}?userID=${this.privates.get(this).getUserID()}`);
+    }
+
+    createUser = () => {
+        let userID = this.privates.get(this).getUserID();
+        let user = this._generateUser(userID);
+        return this.getHttpClient().post(`${this.getBaseUrl()}`, user);
+    }
+
+    _generateUser = (userID) => {
+        return {
+            userID: `${userID}`
+        };
     }
 
 }

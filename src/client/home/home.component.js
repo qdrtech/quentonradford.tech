@@ -5,7 +5,6 @@ import Configurations from './helpers/configurations';
 
 //services
 import BackgroundImageService from './services/backgroundimage.service';
-import CookieService from './services/cookie.service';
 import UserService from './services/users.service';
 
 //css
@@ -18,7 +17,6 @@ class Home extends Component {
     }
 
     __init__ = () => {
-        this.cookieService = new CookieService();
         this.UserService = new UserService();
         this.configurations = new Configurations();
         this.backgroundImageService = new BackgroundImageService();
@@ -41,9 +39,14 @@ class Home extends Component {
     }
 
     _initUser = () => {
-        this.UserService.getUserByUserID("123456789").then((response) => {
-            if(!response || response.Item) this.state.affirmation = "no affirmation";
-            this.state.affirmation = response.data.Item.Affirmation;
+        this.UserService.getUserByUserID().then((response) => {
+            if (!response || !response.data || !response.data.Item) {
+                this.UserService.createUser().then((response) => {
+                   this._initUser();
+                   return;
+                });
+            };
+            this.state.affirmation = response.data.Item.Affirmation !== "null" ? response.data.Item.Affirmation : "a declaration";
         });
     }
 
