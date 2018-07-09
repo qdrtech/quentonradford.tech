@@ -1,20 +1,54 @@
 import React, { Component } from 'react';
+
+//helpers
 import Configurations from './helpers/configurations';
+
+//services
 import BackgroundImageService from './services/backgroundimage.service';
+import CookieService from './services/cookie.service';
+import UserService from './services/users.service';
+
+//css
 import './home.component.css';
 
 class Home extends Component {
     constructor(props) {
         super(props);
+        this.__init__();
+    }
+
+    __init__ = () => {
+        this.cookieService = new CookieService();
+        this.UserService = new UserService();
         this.configurations = new Configurations();
-        this.state = { countdownTime: null };
-        this.countdownDate = new Date("07/10/2018").getTime();
         this.backgroundImageService = new BackgroundImageService();
+
+        this._bootStrapApplication();
+    }
+
+    _bootStrapApplication = () => {
+        this._initBackgroundImage();
+        this._initUser();
+        this._setComponentState();
+    }
+
+    _initBackgroundImage = () => {
         this.backgroundImageService.getBackgroundImage().then((response) => {
             if (response && response.status === 200) {
                 this.setImageOfTheDay(`${this.configurations.BING_URL}${(this.returnImageOfTheDay(JSON.parse(response.data)))}`);
             }
         });
+    }
+
+    _initUser = () => {
+        this.UserService.getUserByUserID("123456789").then((response) => {
+            if(!response || response.Item) this.state.affirmation = "no affirmation";
+            this.state.affirmation = response.data.Item.Affirmation;
+        });
+    }
+
+    _setComponentState = () => {
+        this.state = { affirmation: null };
     }
 
     setImageOfTheDay = (string) => {
@@ -52,9 +86,8 @@ class Home extends Component {
             <div className="App">
                 <div className="bgimg" style={this.img}>
                     <div className="middle">
-                        <h1>QUENTON WILL BE BACK..</h1>
+                        <h1>{this.state.affirmation}</h1>
                         <hr />
-                        <p>+{this.state.countdownTime}ms</p>
                     </div>
                 </div>
             </div>
