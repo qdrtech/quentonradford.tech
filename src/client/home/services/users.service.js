@@ -36,6 +36,10 @@ export default class UserService {
         return this.getHttpClient().post(`${this.getBaseUrl()}`, user);
     }
 
+    updateUser = (user) => {
+        return this.getHttpClient().put(`${this.getBaseUrl()}?userID=${this.privates.get(this).getUserID()}`, user);
+    }
+
     _generateUser = (userID) => {
         return {
             userID: `${userID}`
