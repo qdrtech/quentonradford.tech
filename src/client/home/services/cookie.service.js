@@ -9,7 +9,7 @@ export default class CookieService {
         var privateProperties = {
             fingerprint: new Fingerprint().get(),
             gCookie : () => {
-                console.log("Create Cookie");
+                
             }
         }
         this.private.set(this, privateProperties);
