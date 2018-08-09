@@ -29,13 +29,14 @@ class Home extends Component {
 
     _bootStrapComponent = () => {
         this.state = {};
-        this._initBackgroundImage();
-        this._initUser();
-        this._setComponentState();
+        this._initBackgroundImage().then(() => {
+            this._initUser();
+            this._setComponentState();
+        });
     }
 
     _initBackgroundImage = () => {
-        this.backgroundImageService.getBackgroundImage().then((response) => {
+        return this.backgroundImageService.getBackgroundImage().then((response) => {
             if (response && response.status === 200) {
                 this.setImageOfTheDay(`${this.configurations.BING_URL}${(this.returnImageOfTheDay(response.data))}`);
             }
@@ -51,18 +52,18 @@ class Home extends Component {
             };
             this.user = response.data.Item;
             this._setComponentState(this.user);
-            this.setState({affirmation: this.user.Affirmation});
+            this.setState({ affirmation: this.user.Affirmation });
         });
     }
 
     _setComponentState = (user) => {
         var today = Date.now();
-        var oneDay = 24 * (60  * 60 * 1000);
-        if(this.user && ((this.user.LastUpdatedDate + oneDay) >= today)){
+        var oneDay = 24 * (60 * 60 * 1000);
+        if (this.user && ((this.user.LastUpdatedDate + oneDay) >= today)) {
             this.AffirmationService.getAffirmation().then((response) => {
-                if(!response || !response.data || !response.data.Affirmation) return;
+                if (!response || !response.data || !response.data.Affirmation) return;
                 this.user.Affirmation = response.data.Affirmation;
-                this.UserService.updateUser({Affirmation: this.user.Affirmation, UserID: this.user.UserID}).then((response) => {
+                this.UserService.updateUser({ Affirmation: this.user.Affirmation, UserID: this.user.UserID }).then((response) => {
                     this.user = response.data.Attributes;
                     this._initUser();
                     return;
@@ -90,7 +91,6 @@ class Home extends Component {
 
     componentDidMount = () => {
         this.timerID = setInterval(() => {
-            let now = new Date().getTime();
             this._setComponentState(this.user);
         }, 100000)
     };
