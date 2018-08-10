@@ -29,18 +29,8 @@ class Home extends Component {
 
     _bootStrapComponent = () => {
         this.state = {};
-        this._initBackgroundImage().then(() => {
-            this._initUser();
-            this._setComponentState();
-        });
-    }
-
-    _initBackgroundImage = () => {
-        return this.backgroundImageService.getBackgroundImage().then((response) => {
-            if (response && response.status === 200) {
-                this.setImageOfTheDay(`${this.configurations.BING_URL}${(this.returnImageOfTheDay(response.data))}`);
-            }
-        });
+        this._initUser();
+        this._setComponentState();
     }
 
     _initUser = () => {
@@ -72,23 +62,6 @@ class Home extends Component {
         }
     }
 
-    setImageOfTheDay = (string) => {
-        this.img = {
-            backgroundImage: `url(${string})`
-
-        }
-    };
-
-    returnImageOfTheDay = (data) => {
-        if (data && data.images && data.images.length > 0) {
-            return this.extractImageOfTheDay(data.images[0]);
-        }
-    };
-
-    extractImageOfTheDay = (image) => {
-        return image.url;
-    };
-
     componentDidMount = () => {
         this.timerID = setInterval(() => {
             this._setComponentState(this.user);
@@ -104,7 +77,7 @@ class Home extends Component {
     render = () => {
         return (
             <div className="App">
-                <div className="bgimg" style={this.img}>
+                <div className="container">
                     <div className="middle">
                         <h1>{this.state.affirmation}</h1>
                         <hr />

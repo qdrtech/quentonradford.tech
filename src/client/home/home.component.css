@@ -1,4 +1,8 @@
-.bgimg {
+.App {
+    background: #485563;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #29323c, #485563);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #29323c, #485563); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  
+    position:absolute;
     /* Full-screen */
     height: 100%;
     width:100%;
@@ -6,8 +10,6 @@
     background-position: center;
     /* Scale and zoom in the image */
     background-size: cover;
-    /* Add position: relative to enable absolutely positioned elements inside the image (place text) */
-    position: absolute;
     /* Add a white text color to all elements inside the .bgimg container */
     color: white;
     /* Add a font */
