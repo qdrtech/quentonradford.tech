@@ -7,6 +7,7 @@ import Configurations from './helpers/configurations';
 import AffirmationService from './services/affirmation.service';
 import BackgroundImageService from './services/backgroundimage.service';
 import UserService from './services/users.service';
+import moment from 'moment';
 
 //css
 import './home.component.css';
@@ -40,24 +41,34 @@ class Home extends Component {
                     this._initUser();
                 });
             };
+
             this.user = response.data.Item;
             this._setComponentState(this.user);
-            this.setState({ affirmation: this.user.Affirmation });
+
+            if (this.user && this.user.Affirmation)
+                this.setState({ affirmation: this.user.Affirmation });
         });
     }
 
+    convertEpochToLocalDate = (utcSeconds) => {
+        return new Date(0).setUTCSeconds(utcSeconds);
+    }
+
     _setComponentState = (user) => {
-        var today = Date.now();
-        var oneDay = 24 * (60 * 60 * 1000);
-        if (this.user && ((this.user.LastUpdatedDate + oneDay) >= today)) {
+        if (!this.user || !this.user.LastUpdatedDate) return;
+
+        if (moment(new Date()) > moment(this.user.LastUpdatedDate).add(1, "days")) {
             this.AffirmationService.getAffirmation().then((response) => {
-                if (!response || !response.data || !response.data.Affirmation) return;
-                this.user.Affirmation = response.data.Affirmation;
-                this.UserService.updateUser({ Affirmation: this.user.Affirmation, UserID: this.user.UserID }).then((response) => {
-                    this.user = response.data.Attributes;
-                    this._initUser();
-                    return;
-                });
+                if (!response || !response.data || !response.data.body || !JSON.parse(response.data.body).Affirmation) return;
+                this.user.Affirmation = JSON.parse(response.data.body).Affirmation;
+                this.user.LastUpdatedDate = moment().toISOString();
+
+                this.UserService.updateUser({ Affirmation: this.user.Affirmation, UserID: this.user.UserID, LastUpdatedDate: this.user.LastUpdatedDate }).then(
+                    (response) => {
+                        this.user = response.data.Attributes;
+                        this._initUser();
+                        return;
+                    });
             });
         }
     }

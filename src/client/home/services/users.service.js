@@ -1,6 +1,7 @@
 import HttpClient from '../../services/httpclient.service';
 
 import CookieService from './cookie.service';
+import moment from 'moment';
 
 export default class UserService {
 
@@ -42,7 +43,9 @@ export default class UserService {
 
     _generateUser = (userID) => {
         return {
-            userID: `${userID}`
+            userID: `${userID}`,
+            CreatedDate: moment().toISOString(),
+            LastUpdatedDate: moment().toISOString()
         };
     }
 
