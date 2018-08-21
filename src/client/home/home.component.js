@@ -1,44 +1,82 @@
 import React, { Component } from 'react';
+
+//helpers
 import Configurations from './helpers/configurations';
+
+//services
+import AffirmationService from './services/affirmation.service';
 import BackgroundImageService from './services/backgroundimage.service';
+import UserService from './services/users.service';
+import moment from 'moment';
+
+//css
 import './home.component.css';
 
 class Home extends Component {
     constructor(props) {
         super(props);
+        this.__init__();
+        this.user = null;
+    }
+
+    __init__ = () => {
+        this.AffirmationService = new AffirmationService();
+        this.UserService = new UserService();
         this.configurations = new Configurations();
-        this.state = { countdownTime: null };
-        this.countdownDate = new Date("07/10/2018").getTime();
         this.backgroundImageService = new BackgroundImageService();
-        this.backgroundImageService.getBackgroundImage().then((response) => {
-            if (response && response.status === 200) {
-                this.setImageOfTheDay(`${this.configurations.BING_URL}${(this.returnImageOfTheDay(JSON.parse(response.data)))}`);
-            }
+
+        this._bootStrapComponent();
+    }
+
+    _bootStrapComponent = () => {
+        this.state = {};
+        this._initUser();
+        this._setComponentState();
+    }
+
+    _initUser = () => {
+        this.UserService.getUserByUserID().then((response) => {
+            if (!response || !response.data || !response.data.Item) {
+                this.UserService.createUser().then((response) => {
+                    this._initUser();
+                });
+            };
+
+            this.user = response.data.Item;
+            this._setComponentState(this.user);
+
+            if (this.user && this.user.Affirmation)
+                this.setState({ affirmation: this.user.Affirmation });
         });
     }
 
-    setImageOfTheDay = (string) => {
-        this.img = {
-            backgroundImage: `url(${string})`
+    convertEpochToLocalDate = (utcSeconds) => {
+        return new Date(0).setUTCSeconds(utcSeconds);
+    }
 
+    _setComponentState = (user) => {
+        if (!this.user || !this.user.LastUpdatedDate) return;
+
+        if (moment(new Date()) > moment(this.user.LastUpdatedDate).add(1, "days")) {
+            this.AffirmationService.getAffirmation().then((response) => {
+                if (!response || !response.data || !response.data.body || !JSON.parse(response.data.body).Affirmation) return;
+                this.user.Affirmation = JSON.parse(response.data.body).Affirmation;
+                this.user.LastUpdatedDate = moment().toISOString();
+
+                this.UserService.updateUser({ Affirmation: this.user.Affirmation, UserID: this.user.UserID, LastUpdatedDate: this.user.LastUpdatedDate }).then(
+                    (response) => {
+                        this.user = response.data.Attributes;
+                        this._initUser();
+                        return;
+                    });
+            });
         }
-    };
-
-    returnImageOfTheDay = (data) => {
-        if (data && data.images && data.images.length > 0) {
-            return this.extractImageOfTheDay(data.images[0]);
-        }
-    };
-
-    extractImageOfTheDay = (image) => {
-        return image.url;
-    };
+    }
 
     componentDidMount = () => {
         this.timerID = setInterval(() => {
-            let now = new Date().getTime();
-            this.setState({ countdownTime: this.countdownDate - now });
-        }, 1)
+            this._setComponentState(this.user);
+        }, 100000)
     };
 
     componentWillUnmount = () => {
@@ -50,11 +88,10 @@ class Home extends Component {
     render = () => {
         return (
             <div className="App">
-                <div className="bgimg" style={this.img}>
+                <div className="container">
                     <div className="middle">
-                        <h1>QUENTON WILL BE BACK..</h1>
+                        <h1>{this.state.affirmation}</h1>
                         <hr />
-                        <p>+{this.state.countdownTime}ms</p>
                     </div>
                 </div>
             </div>

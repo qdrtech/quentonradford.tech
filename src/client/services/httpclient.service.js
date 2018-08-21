@@ -4,7 +4,7 @@ import axios from 'axios';
 class HttpClient {
     constructor() {
         let service = axios.create({
-            headers: { "Accept": "*", "Content-Type": "aplication/json" }
+            headers: { "Accept": "*", "Content-Type": "aplication/json", "x-api-key": "HcAOoHXlxf7cOhXUBiM8k3iVxn124f912BKJc39h" }
         });
         service.interceptors.response.use(this.handleSuccess, this.handleError);
         this.service = service;
@@ -36,6 +36,14 @@ class HttpClient {
 
     get = (url, callback) => {
         return this.service.get(url);
+    }
+
+    post = (url, data, callback) => {
+        return this.service.post(url,data);
+    }
+
+    put = (url, data, callback) => {
+        return this.service.put(url,data);
     }
 }
 
