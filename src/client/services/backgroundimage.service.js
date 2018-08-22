@@ -1,5 +1,5 @@
-import HttpClient from '../../services/httpclient.service';
-import Configurations from '../helpers/configurations';
+import HttpClient from './httpclient.service';
+import Configurations from '../helpers/configurations'
 
 export default class BackgroundImageService {
     constructor() {

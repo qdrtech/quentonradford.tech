@@ -1,5 +1,5 @@
 //services
-import HttpClient from '../../services/httpclient.service';
+import HttpClient from './httpclient.service';
 
 export default class AffirmationService {
     privates = new WeakMap();

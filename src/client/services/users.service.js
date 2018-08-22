@@ -1,4 +1,4 @@
-import HttpClient from '../../services/httpclient.service';
+import HttpClient from './httpclient.service';
 
 import CookieService from './cookie.service';
 import moment from 'moment';
