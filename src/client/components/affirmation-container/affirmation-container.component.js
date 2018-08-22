@@ -44,7 +44,7 @@ export default class AffirmationContainerComponent extends Component {
             this._setComponentState(this.user);
 
             if (this.user && this.user.Affirmation) {
-                this.setState({ affirmation: this.user.Affirmation, isLoading: true });
+                this.setState({ affirmation: this.user.Affirmation, isLoading: false });
             }
         });
     }
