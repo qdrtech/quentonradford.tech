@@ -16,7 +16,6 @@ export default class AffirmationContainerComponent extends Component {
         super(props);
         this.__init__();
         this.user = null;
-        this.state.isLoading = true;
     }
 
     __init__ = () => {
@@ -37,14 +36,12 @@ export default class AffirmationContainerComponent extends Component {
             if (!response || !response.data || !response.data.Item) {
                 this.UserService.createUser().then((response) => {
                     this._initUser();
+                    this.user = response.data.Item;
+                    this._setComponentState(this.user);
                 });
-            };
-
-            this.user = response.data.Item;
-            this._setComponentState(this.user);
-
-            if (this.user && this.user.Affirmation) {
-                this.setState({ affirmation: this.user.Affirmation, isLoading: false });
+            } else {
+                this.user = response.data.Item;
+                this._setComponentState(this.user);
             }
         });
     }
@@ -56,12 +53,12 @@ export default class AffirmationContainerComponent extends Component {
     _setComponentState = (user) => {
         if (!this.user || !this.user.LastUpdatedDate) return;
 
-        if (moment(new Date()) > moment(this.user.LastUpdatedDate).add(1, "days")) {
+        if (moment() > moment(this.user.LastUpdatedDate).add(1, "days")) {
             this.AffirmationService.getAffirmation().then((response) => {
                 if (!response || !response.data || !response.data.body || !JSON.parse(response.data.body).Affirmation) return;
                 this.user.Affirmation = JSON.parse(response.data.body).Affirmation;
                 this.user.LastUpdatedDate = moment().toISOString();
-
+                this.setState({ affirmation: this.user.Affirmation, isLoading: true });
                 this.UserService.updateUser({ Affirmation: this.user.Affirmation, UserID: this.user.UserID, LastUpdatedDate: this.user.LastUpdatedDate }).then(
                     (response) => {
                         this.user = response.data.Attributes;
@@ -70,8 +67,14 @@ export default class AffirmationContainerComponent extends Component {
                     });
             });
         }
+
+        if (this.user && this.user.Affirmation) {
+            this.setState({ affirmation: this.user.Affirmation, isLoading: false });
+        }
     }
     componentDidMount = () => {
+        this.setState({ affirmation: null, isLoading: true });
+
         this.timerID = setInterval(() => {
             this._setComponentState(this.user);
         }, 100000)

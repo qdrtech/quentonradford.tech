@@ -4,22 +4,19 @@ import React, { Component } from 'react';
 import './home.component.css';
 
 //components
+import Header from '../components/header/header.component';
 import AffirmationContainerComponent from '../components/affirmation-container/affirmation-container.component';
 
-class Home extends Component {
+export default class Home extends Component {
     constructor(props) {
         super(props);
     }
 
     render = () => {
         return (
-            <div className="App">
-                <div className="container">
-                    <AffirmationContainerComponent />
-                </div>
+            <div className="container">
+                <AffirmationContainerComponent />
             </div>
         );
     };
 }
-
-export default Home;
