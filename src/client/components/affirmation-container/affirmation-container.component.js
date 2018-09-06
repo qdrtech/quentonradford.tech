@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
 //services
 import AffirmationService from '../../services/affirmation.service'
@@ -11,7 +14,11 @@ import LoaderComponent from '../loader/loader.component';
 //css
 import './affirmation-container.component.css';
 
-export default class AffirmationContainerComponent extends Component {
+const styles = theme => ({
+
+});
+
+class AffirmationContainerComponent extends Component {
     constructor(props) {
         super(props);
         this.__init__();
@@ -80,10 +87,6 @@ export default class AffirmationContainerComponent extends Component {
         }, 100000)
     };
 
-    componentWillUnmount = () => {
-        clearInterval(this.timerID);
-    };
-
     returnMiddleComponent = () => {
         if (this.state.isLoading === true) {
             return <LoaderComponent />
@@ -101,3 +104,9 @@ export default class AffirmationContainerComponent extends Component {
         )
     }
 }
+
+AffirmationContainerComponent.propTypes = {
+    classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(AffirmationContainerComponent);
