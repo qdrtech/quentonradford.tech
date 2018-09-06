@@ -3,9 +3,6 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-//css
-import './home.component.css';
-
 //components
 import AffirmationContainerComponent from '../affirmation-container/affirmation-container.component';
 
