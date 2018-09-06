@@ -3,21 +3,3 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
-
-.App {
-  background: #222222;  /* fallback for old browsers */
-  position:absolute;
-  /* Full-screen */
-  height: 100%;
-  width:100%;
-  /* Center the background image */
-  background-position: center;
-  /* Scale and zoom in the image */
-  background-size: cover;
-  /* Add a white text color to all elements inside the .bgimg container */
-  color: white;
-  /* Add a font */
-  font-family: "Courier New", Courier, monospace;
-  /* Set the font-size to 25 pixels */
-  font-size: 25px;
-}

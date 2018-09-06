@@ -11,11 +11,20 @@ import moment from 'moment';
 //components
 import LoaderComponent from '../loader/loader.component';
 
-//css
-import './affirmation-container.component.css';
-
 const styles = theme => ({
-
+    /* Position text in the middle */
+    middle: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        textAlign: 'center'
+    },
+    /* Style the <hr> element */
+    hr: {
+        margin: 'auto',
+        width: '40%'
+    }
 });
 
 class AffirmationContainerComponent extends Component {
@@ -96,8 +105,9 @@ class AffirmationContainerComponent extends Component {
     }
 
     render() {
+        const {classes} = this.props;
         return (
-            <div className="middle">
+            <div className={classes.middle}>
                 <this.returnMiddleComponent />
                 <hr />
             </div>
