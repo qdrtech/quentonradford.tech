@@ -1,5 +1,5 @@
-import React from 'react';
-import {Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -25,20 +25,27 @@ const handleClick = (props) => {
 
 }
 
-function Header(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="title" color="inherit" className={classes.flex}>
-            affirm.io
-          </Typography>
-          <Button onClick={handleClick(props)} color="inherit"><Link to="/login">Login</Link></Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+class Header extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  render = () => {
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="title" color="inherit" className={classes.flex}>
+              <Link to={{ pathname:'/' }}>affirm.io</Link>
+            </Typography>
+            <Button onClick={this.handleClick} color="inherit"><Link to="/login">Login</Link></Button>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
 
 Header.propTypes = {

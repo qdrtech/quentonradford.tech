@@ -45,15 +45,25 @@ const styles = theme => ({
 class Login extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
-            username: '',
-            password: '',
+            user: {
+                username: "",
+                password: ""
+            }
         }
+        this.handleUpdate = this.handleUpdate.bind(this);
+        console.log(this.props);
     }
 
     onLoginClick = () => {
         console.log(this.state);
+    }
+
+    handleUpdate = (event) => {
+        this.state.user = { username: this.state.username, password: this.state.password }
+        console.log("login event", event);
+        console.log("login state", this.state);
+        this.props.handleOnUpdate(this.state)
     }
 
     textFieldChange = name => event => {
@@ -64,9 +74,9 @@ class Login extends Component {
 
     render = () => {
 
-        const { classes } = this.props;
+        const { classes, handleUpdate } = this.props;
 
-        const { checked, username, password } = this.state;
+        const { username, password } = this.state;
 
         return (
             <div className={classes.root}>
@@ -86,7 +96,7 @@ class Login extends Component {
                                 onChange={this.textFieldChange('password')}
                                 className={classNames(classes.margin, classes.textField)}
                             />
-                            <Button onClick={this.onLoginClick} className={classes.button}>
+                            <Button onClick={this.handleUpdate} className={classes.button}>
                                 Login
                             </Button>
                         </Paper>

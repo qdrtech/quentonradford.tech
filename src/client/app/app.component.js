@@ -35,22 +35,20 @@ const styles = theme => ({
 });
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: { test: true }
-        }
+    constructor() {
+        super();
+        this.state = { user: {} }
+        this.onUpdate.bind(this)
     }
 
-    componentWillMount = () => {
-        for (i in styles.body)
-            document.body.styles[i] = styles.body[i];
+    handleUserChange = (usr) => {
+        this.setState({ user: usr });
+        console.log(this.state);
     }
 
-    componentWillUnmount = () => {
-        for(i in styles.body){
-            document.body.style[i] = null;
-        }
+    onUpdate = (e) => {
+        this.state.user = e.user;
+        console.log(this.state);
     }
 
     render = () => {
@@ -60,10 +58,10 @@ class App extends Component {
                 <div className={classes.App}>
                     <div id="Rotuer">
                         <div id="Header">
-                            <Header />
+                            <Header user={this.state.user} />
                         </div>
-                        <Route exact path='/' component={Home} />
-                        <Route exact path='/login' component={Login} />
+                        <Route exact path='/' render={(props) => <Home />} />
+                        <Route exact path='/login' render={(props) => <Login handleOnUpdate={this.onUpdate.bind(this)} user={this.state} />} />
                     </div>
                 </div>
             </div>
