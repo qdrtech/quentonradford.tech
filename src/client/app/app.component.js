@@ -6,9 +6,9 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 //components
-import Home from '../components/home/home.component';
-import Header from '../components/header/header.component';
-import Login from '../components/login/login.component';
+import Home from './components/home/home.component';
+import Header from './components/header/header.component';
+import Publish from './components/publish/publish.component';
 
 const styles = theme => ({
     body: {
@@ -17,7 +17,7 @@ const styles = theme => ({
         fontFamily: 'sans-serif'
     },
     App: {
-        background: "#222222", /* fallback for old browsers */
+        background: "white", /* fallback for old browsers */
         position: 'absolute',
         /* Full-screen */
         height: "100%",
@@ -37,18 +37,6 @@ const styles = theme => ({
 class App extends Component {
     constructor() {
         super();
-        this.state = { user: {} }
-        this.onUpdate.bind(this)
-    }
-
-    handleUserChange = (usr) => {
-        this.setState({ user: usr });
-        console.log(this.state);
-    }
-
-    onUpdate = (e) => {
-        this.state.user = e.user;
-        console.log(this.state);
     }
 
     render = () => {
@@ -58,10 +46,10 @@ class App extends Component {
                 <div className={classes.App}>
                     <div id="Rotuer">
                         <div id="Header">
-                            <Header user={this.state.user} />
+                            <Header />
                         </div>
                         <Route exact path='/' render={(props) => <Home />} />
-                        <Route exact path='/login' render={(props) => <Login handleOnUpdate={this.onUpdate.bind(this)} user={this.state} />} />
+                        <Route exact path='/publish' render={(props) => <Publish />} />
                     </div>
                 </div>
             </div>

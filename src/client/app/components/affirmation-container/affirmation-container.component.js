@@ -3,6 +3,17 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+import Fade from '@material-ui/core/Fade';
+
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import { AccessAlarm, ThreeDRotation } from '@material-ui/icons';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 //services
 import AffirmationService from '../../services/affirmation.service'
 import UserService from '../../services/users.service';
@@ -19,6 +30,11 @@ const styles = theme => ({
         left: '50%',
         transform: 'translate(-50%, -50%)',
         textAlign: 'center'
+    },
+    cardStyle: {
+        display: 'block',
+        transitionDuration: '0.3s',
+        height: '25vw',
     },
     /* Style the <hr> element */
     hr: {
@@ -97,20 +113,31 @@ class AffirmationContainerComponent extends Component {
     };
 
     returnMiddleComponent = () => {
-        if (this.state.isLoading === true) {
-            return <LoaderComponent />
-        } else {
-            return <h1>{this.state.affirmation}</h1>
-        }
+        return <Fade in={true}>{this.state.isLoading ? <LoaderComponent /> : <p>{this.state.affirmation}</p>}</Fade>
     }
 
     render() {
-        const {classes} = this.props;
+        const { classes } = this.props;
+        const bull = <span className={classes.bullet}>•</span>;
         return (
-            <div className={classes.middle}>
-                <this.returnMiddleComponent />
-                <hr />
-            </div>
+            <Fade in={true}>
+                <div className={classes.middle}>
+                    <Card className={classes.card}>
+                        <CardContent>
+                            <Typography className={classes.title} color="textSecondary">
+                                Word of the Day
+                            </Typography>
+                            <Typography variant="headline" component="h2">
+                                <this.returnMiddleComponent />
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            <Button size="small"><AddIcon /></Button>
+                            <Button size="small"><DeleteIcon /></Button>
+                        </CardActions>
+                    </Card>
+                </div>
+            </Fade>
         )
     }
 }
