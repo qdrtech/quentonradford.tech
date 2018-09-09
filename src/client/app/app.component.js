@@ -145,7 +145,7 @@ class App extends Component {
                             }
                         }}
                         onClick={this.handleClose}
-                        message={<span id="message-id">message published(++)</span>}
+                        message={<span id="message-id">take your own advice(++)</span>}
                         action={[
                             <IconButton
                                 key="close"
