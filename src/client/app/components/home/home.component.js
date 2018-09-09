@@ -23,7 +23,7 @@ class Home extends Component {
 
         return (
             <div className={classes.container}>
-                <AffirmationContainerComponent />
+                <AffirmationContainerComponent isLoading={this.props.isLoading} user={this.props.user} handleUserUpdate={this.props.handleUserUpdate.bind(this)} />
             </div>
         );
     };

@@ -23,4 +23,8 @@ export default class AffirmationService {
     getAffirmation = () => {
         return this.getHttpClient().get(this.getBaseUrl());
     }
+
+    postAffirmation = (data) => {
+        return this.getHttpClient().post(this.getBaseUrl(), data);
+    }
 }

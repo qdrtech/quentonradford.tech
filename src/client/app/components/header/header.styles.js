@@ -1,4 +1,4 @@
-const styles = theme => ({
+export const styles = theme => ({
     root: {
       flexGrow: 1,
       backgroundColor: "white"
@@ -21,5 +21,3 @@ const styles = theme => ({
       fontSize: 16,
     },
   });
-
-  export default styles;
