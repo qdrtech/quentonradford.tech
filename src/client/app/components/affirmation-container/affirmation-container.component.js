@@ -19,9 +19,10 @@ const styles = theme => ({
     /* Position text in the middle */
     middle: {
         position: 'absolute',
-        top: '40%',
-        left: '30%',
-        textAlign: 'left'
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        textAlign: 'center'
     },
     cardStyle: {
         display: 'block',
@@ -46,10 +47,12 @@ class AffirmationContainerComponent extends Component {
     }
 
     render() {
+
         const { classes } = this.props;
+
         return (
-            <Slide direction="up" in={true} mountOnEnter unmountOnExit>
-                <div className={classes.middle}>
+            <div className={classes.middle}>
+                <Slide direction="up" in={true} mountOnEnter unmountOnExit>
                     <Card className={classes.card}>
                         <CardContent>
                             <Typography className={classes.title} color="textSecondary">
@@ -64,8 +67,8 @@ class AffirmationContainerComponent extends Component {
                             <Button size="small"><DeleteIcon /></Button>
                         </CardActions>
                     </Card>
-                </div>
-            </Slide>
+                </Slide>
+            </div>
         )
     }
 }

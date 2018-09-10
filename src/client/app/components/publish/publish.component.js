@@ -28,8 +28,8 @@ import AffirmationService from '../../services/affirmation.service';
 const styles = theme => ({
     middle: {
         position: 'absolute',
-        top: '40%',
-        left: '30%',
+        top: '50%',
+        left: '40%',
         transform: 'translate(-50%, -50%)',
         textAlign: 'center'
     },
@@ -68,8 +68,8 @@ class Publish extends Component {
                         if (!response || !response.data || !response.data.Attributes) return;
                         this.state.user = response.data.Attributes;
                     });
-                }else{
-                    this.setState({user: userResponse.data.Item});
+                } else {
+                    this.setState({ user: userResponse.data.Item });
                 }
             });
         }
@@ -94,8 +94,8 @@ class Publish extends Component {
         const { publishData } = this.state;
 
         return (
-            <Grow in={true}>
-                <div className={classes.middle}>
+            <div className={classes.middle}>
+                <Grow in={true}>
                     <Grid container direction="column" justify="center">
                         <Grid item xs={12}>
                             <Card className={classes.card}>
@@ -121,8 +121,8 @@ class Publish extends Component {
                             </Card>
                         </Grid>
                     </Grid>
-                </div>
-            </Grow >
+                </Grow >
+            </div>
         );
     }
 }
