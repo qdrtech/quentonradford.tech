@@ -29,12 +29,12 @@ const styles = theme => ({
     middle: {
         position: 'absolute',
         top: '50%',
-        left: '40%',
+        left: '50%',
         transform: 'translate(-50%, -50%)',
         textAlign: 'center'
     },
-    card: {
-        width: '300%;',
+    card:{
+        width:'60vh',
     },
     textField: {
         width: '80%',
@@ -80,7 +80,7 @@ class Publish extends Component {
             if (response.status === 201) {
                 this.state.UserService.updateUser({ Affirmation: this.state.publishData, UserID: this.state.user.UserID, LastUpdatedDate: this.state.user.LastUpdatedDate }).then((response) => {
                     this.state.user = response.data.Attributes;
-                    this.props.handleSnackbar();
+                    this.props.handleSnackbar("take your own advice(++)");
                     this.props.handleUserUpdate(this.state.user);
                 });
             }

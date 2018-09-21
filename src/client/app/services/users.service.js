@@ -14,7 +14,7 @@ export default class UserService {
                 return this.privates.get(this).cookieService.getFingerPrint()
             },
             http: new HttpClient(),
-            baseUrl: "https://w2650z904k.execute-api.us-east-2.amazonaws.com/Dev/api/users"
+            baseUrl: "https://w2650z904k.execute-api.us-east-2.amazonaws.com/Dev/api"
         }
         this.privates.set(this, privateProperties);
     }
@@ -28,17 +28,23 @@ export default class UserService {
     }
 
     getUserByUserID = () => {
-        return this.getHttpClient().get(`${this.getBaseUrl()}?userID=${this.privates.get(this).getUserID()}`);
+        return this.getHttpClient().get(`${this.getBaseUrl()}/users?userID=${this.privates.get(this).getUserID()}`);
     }
 
     createUser = () => {
         let userID = this.privates.get(this).getUserID();
         let user = this._generateUser(userID);
-        return this.getHttpClient().post(`${this.getBaseUrl()}`, user);
+        return this.getHttpClient().post(`${this.getBaseUrl()}/users`, user);
+    }
+
+    register = (phone) => {
+        let userID = this.privates.get(this).getUserID();
+        let data = {userID:userID, phone:phone};
+        return this.getHttpClient().post(`${this.getBaseUrl()}/register`, data);
     }
 
     updateUser = (user) => {
-        return this.getHttpClient().put(`${this.getBaseUrl()}?userID=${this.privates.get(this).getUserID()}`, user);
+        return this.getHttpClient().put(`${this.getBaseUrl()}/users?userID=${this.privates.get(this).getUserID()}`, user);
     }
 
     _generateUser = (userID) => {

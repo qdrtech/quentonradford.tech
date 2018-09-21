@@ -52,17 +52,13 @@ class Login extends Component {
             }
         }
         this.handleUpdate = this.handleUpdate.bind(this);
-        console.log(this.props);
     }
 
     onLoginClick = () => {
-        console.log(this.state);
     }
 
     handleUpdate = (event) => {
         this.state.user = { username: this.state.username, password: this.state.password }
-        console.log("login event", event);
-        console.log("login state", this.state);
         this.props.handleOnUpdate(this.state)
     }
 
