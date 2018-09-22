@@ -7,9 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AffirmationContainerComponent from '../affirmation-container/affirmation-container.component';
 
 const styles = theme => ({
-    container: {
-        
-    }
+
 });
 
 class Home extends Component {
@@ -23,7 +21,7 @@ class Home extends Component {
 
         return (
             <div className={classes.container}>
-                <AffirmationContainerComponent isLoading={this.props.isLoading} user={this.props.user} handleUserUpdate={this.props.handleUserUpdate.bind(this)} />
+                <AffirmationContainerComponent {...this.props} isLoading={this.props.isLoading} user={this.props.user} handleUserUpdate={this.props.handleUserUpdate.bind(this)} />
             </div>
         );
     };

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -10,13 +11,15 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 //components
 import LoaderComponent from '../loader/loader.component';
 
 const styles = theme => ({
     /* Position text in the middle */
+    card:{
+        width:'60vh',
+    },
     middle: {
         position: 'absolute',
         top: '50%',
@@ -49,22 +52,22 @@ class AffirmationContainerComponent extends Component {
     render() {
 
         const { classes } = this.props;
+        const bull = <span className={classes.bullet}>•</span>;
 
         return (
             <div className={classes.middle}>
-                <Slide direction="up" in={true} mountOnEnter unmountOnExit>
+                <Slide direction="left" in={true} mountOnEnter unmountOnExit>
                     <Card className={classes.card}>
                         <CardContent>
                             <Typography className={classes.title} color="textSecondary">
-                                Word of the Day
+                                aff {bull} irm
                             </Typography>
                             <Typography variant="headline" component="h2">
                                 <this.returnMiddleComponent />
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button size="small"><AddIcon /></Button>
-                            <Button size="small"><DeleteIcon /></Button>
+                            <Button component={Link} to="/publish" size="small"><AddIcon /></Button>
                         </CardActions>
                     </Card>
                 </Slide>

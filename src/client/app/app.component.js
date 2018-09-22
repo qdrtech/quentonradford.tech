@@ -16,6 +16,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Home from './components/home/home.component';
 import Header from './components/header/header.component';
 import Publish from './components/publish/publish.component';
+import Register from './components/register/register.component';
 
 //services
 import AffirmationService from './services/affirmation.service'
@@ -99,8 +100,9 @@ class App extends Component {
         }, 100000)
     };
 
-    onSnackbarNotif = () => {
-        this.setState({ open: true });
+    onSnackbarNotif = (val) => {
+        this.setState({ open: false });
+        this.setState({ open: true, snackMessage: val});
     }
 
     onUpdatedUserObject = (val) => {
@@ -119,7 +121,7 @@ class App extends Component {
     render = () => {
         const { classes, user } = this.props;
 
-        const { open, shareData } = this.state;
+        const { snackMessage } = this.state;
 
         return (
             <div className={classes.root}>
@@ -130,6 +132,7 @@ class App extends Component {
                     <div id="Rotuer">
                         <Route exact path='/' render={(props) => <Home isLoading={this.state.isLoading} user={this.state.user} {...props} handleUserUpdate={this.onUpdatedUserObject.bind(this)} />} />
                         <Route exact path='/publish' render={(props) => <Publish user={this.state.user} initUser={this.__init__.bind(this)} handleSnackbar={this.onSnackbarNotif.bind(this)} handleUserUpdate={this.onUpdatedUserObject.bind(this)} />} />
+                        <Route exact path='/register' render={(props) => <Register {...props} user={this.state.user} handleSnackbar={this.onSnackbarNotif.bind(this)} initUser={this.__init__.bind(this)} />} />
                     </div>
                     <Snackbar
                         anchorOrigin={{
@@ -137,15 +140,14 @@ class App extends Component {
                             horizontal: 'left',
                         }}
                         open={this.state.open}
-                        autoHideDuration={800}
+                        autoHideDuration={1000}
                         ContentProps={{
                             'aria-describedby': 'message-id',
                             classes: {
                                 root: classes.snackbar
                             }
                         }}
-                        onClick={this.handleClose}
-                        message={<span id="message-id">take your own advice(++)</span>}
+                        message={<span id="message-id">{snackMessage}</span>}
                         action={[
                             <IconButton
                                 key="close"

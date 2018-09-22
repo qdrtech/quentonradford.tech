@@ -3,7 +3,7 @@ export const styles = theme => ({
         margin: 0,
         padding: 0,
         fontFamily: 'sans-serif',
-        fontSize: '50px'
+        fontSize: '50px',
     },
     App: {
         background: "white", /* fallback for old browsers */
@@ -19,11 +19,11 @@ export const styles = theme => ({
         color: 'white',
         /* Add a font */
         /* Set the font-size to 25 pixels */
-        fontSize: '25px'
+        fontSize: '25px',
     },
     snackbar: {
         backgroundColor: 'white',
-        color:'black',
+        color: 'black',
     },
     close: {
         width: theme.spacing.unit * 4,

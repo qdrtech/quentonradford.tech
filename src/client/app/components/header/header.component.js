@@ -33,13 +33,12 @@ class Header extends Component {
         <Grid container direction="row">
           <AppBar className={classes.root}>
             <Toolbar>
-              <Grid container direction="row" justify="flex-end">
-                <Grid item xs={6} container direction="row" justify="flex-start">
+              <Grid container direction="row" justify="flex-start">
+                <Grid item xs={6} container direction="row">
                   <Button className={classes.dim} component={Link} to="/" color="inherit">affirm {bull} mate</Button>
                 </Grid>
                 <Grid item xs={6} container direction="row" justify="flex-end">
-                  <Button className={classes.dim} component={Link} to="/" color="inherit">home</Button>
-                  <Button className={classes.dim} component={Link} to="/publish" color="inherit">pub++</Button>
+                  <Button className={classes.dim} component={Link} to="/register" color="inherit">Register</Button>
                 </Grid>
               </Grid>
             </Toolbar>
