@@ -37,21 +37,17 @@ class App extends Component {
         };
     }
 
-    __init__ = () => {
-        this._bootStrapComponent();
+    _bootStrapComponent = (...args) => {
+        this._initUser(args[0]);
     }
 
-    _bootStrapComponent = () => {
-        this._initUser();
-        this._setComponentState();
-    }
-
-    _initUser = () => {
+    _initUser = (retryAttempt) => {
         this.state.UserService.getUserByUserID().then((response) => {
             if (!response || !response.data || !response.data.Item) {
+                if(++retryAttempt >= 5) return;
                 this.state.UserService.createUser().then((response) => {
-                    this._initUser();
-                    this.state.user = response.data.Item;
+                    this._initUser(retryAttempt);
+                    this.state.user = response && response.data && response.data.Item ? response.data.Item : null;
                     this._setComponentState(this.state.user);
                 });
             }
@@ -66,7 +62,7 @@ class App extends Component {
         return new Date(0).setUTCSeconds(utcSeconds);
     }
 
-    _setComponentState = (user) => {
+    _setComponentState = () => {
         if (!this.state.user || !this.state.user.LastUpdatedDate) return;
 
         if (moment() > moment(this.state.user.LastUpdatedDate).add(1, "days")) {
@@ -78,7 +74,7 @@ class App extends Component {
                 this.state.UserService.updateUser({ Affirmation: this.state.user.Affirmation, UserID: this.state.user.UserID, LastUpdatedDate: this.state.user.LastUpdatedDate }).then(
                     (response) => {
                         this.state.user = response.data.Attributes;
-                        this._initUser();
+                        this._initUser(retryAttempt++);
                         return;
                     });
             });
@@ -90,7 +86,7 @@ class App extends Component {
     }
 
     componentWillMount = () => {
-        this._initUser();
+        this._bootStrapComponent(0);
     }
 
     componentDidMount = () => {
