@@ -127,8 +127,8 @@ class App extends Component {
                     </div>
                     <div id="Rotuer">
                         <Route exact path='/' render={(props) => <Home isLoading={this.state.isLoading} user={this.state.user} {...props} handleUserUpdate={this.onUpdatedUserObject.bind(this)} />} />
-                        <Route exact path='/publish' render={(props) => <Publish user={this.state.user} initUser={this.__init__.bind(this)} handleSnackbar={this.onSnackbarNotif.bind(this)} handleUserUpdate={this.onUpdatedUserObject.bind(this)} />} />
-                        <Route exact path='/register' render={(props) => <Register {...props} user={this.state.user} handleSnackbar={this.onSnackbarNotif.bind(this)} initUser={this.__init__.bind(this)} />} />
+                        <Route exact path='/publish' render={(props) => <Publish user={this.state.user} initUser={this._bootStrapComponent.bind(this)} handleSnackbar={this.onSnackbarNotif.bind(this)} handleUserUpdate={this.onUpdatedUserObject.bind(this)} />} />
+                        <Route exact path='/register' render={(props) => <Register {...props} user={this.state.user} handleSnackbar={this.onSnackbarNotif.bind(this)} initUser={this._bootStrapComponent.bind(this)} />} />
                     </div>
                     <Snackbar
                         anchorOrigin={{
