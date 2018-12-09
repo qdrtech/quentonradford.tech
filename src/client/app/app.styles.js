@@ -6,7 +6,7 @@ export const styles = theme => ({
         fontSize: '50px',
     },
     App: {
-        background: "white", /* fallback for old browsers */
+        background: "#fafafa", /* fallback for old browsers */
         position: 'absolute',
         /* Full-screen */
         height: "100%",
