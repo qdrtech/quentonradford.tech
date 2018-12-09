@@ -38,20 +38,18 @@ class App extends Component {
     }
 
     _bootStrapComponent = (...args) => {
-        this._initUser(args[0]);
+        this.initializeUser();
     }
 
-    _initUser = (retryAttempt) => {
+    initializeUser = () => {
         this.state.UserService.getUserByUserID().then((response) => {
             if (!response || !response.data || !response.data.Item) {
-                if(++retryAttempt >= 5) return;
                 this.state.UserService.createUser().then((response) => {
-                    this._initUser(retryAttempt);
                     this.state.user = response && response.data && response.data.Item ? response.data.Item : null;
                     this._setComponentState(this.state.user);
+                    this.initializeUser();
                 });
-            }
-            else {
+            }else{
                 this.state.user = response.data.Item;
                 this._setComponentState(this.state.user);
             }
@@ -87,13 +85,13 @@ class App extends Component {
 
     componentWillMount = () => {
         this._bootStrapComponent(0);
+        this.timerID = setInterval(() => {
+            this._setComponentState(this.state.user);
+        }, 100000)
     }
 
     componentDidMount = () => {
         this.setState({ affirmation: null, isLoading: true });
-        this.timerID = setInterval(() => {
-            this._setComponentState(this.state.user);
-        }, 100000)
     };
 
     onSnackbarNotif = (val) => {
@@ -127,8 +125,8 @@ class App extends Component {
                     </div>
                     <div id="Rotuer">
                         <Route exact path='/' render={(props) => <Home isLoading={this.state.isLoading} user={this.state.user} {...props} handleUserUpdate={this.onUpdatedUserObject.bind(this)} />} />
-                        <Route exact path='/publish' render={(props) => <Publish user={this.state.user} initUser={this.__init__.bind(this)} handleSnackbar={this.onSnackbarNotif.bind(this)} handleUserUpdate={this.onUpdatedUserObject.bind(this)} />} />
-                        <Route exact path='/register' render={(props) => <Register {...props} user={this.state.user} handleSnackbar={this.onSnackbarNotif.bind(this)} initUser={this.__init__.bind(this)} />} />
+                        <Route exact path='/publish' render={(props) => <Publish user={this.state.user} initUser={this._bootStrapComponent.bind(this)} handleSnackbar={this.onSnackbarNotif.bind(this)} handleUserUpdate={this.onUpdatedUserObject.bind(this)} />} />
+                        <Route exact path='/register' render={(props) => <Register {...props} user={this.state.user} handleSnackbar={this.onSnackbarNotif.bind(this)} initUser={this._bootStrapComponent.bind(this)} />} />
                     </div>
                     <Snackbar
                         anchorOrigin={{
